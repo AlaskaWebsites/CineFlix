@@ -1,0 +1,17 @@
+/* src/assets/css/main.css */
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+    --font-times-new-roman: 'Times New Roman', serif;
+    --teste-color: red; /* Você pode remover essa linha se não for usar 'red' específico */
+
+    /* Cores CineFlix */
+    --color-cineflix-black: #000000;
+    --color-cineflix-red: #E60000;
+    --color-cineflix-dark-gray: #333333; /* Ou #666666 se preferir um cinza um pouco mais claro */
+    --color-cineflix-white: #FFFFFF;
+}
