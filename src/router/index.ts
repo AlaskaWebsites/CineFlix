@@ -2,28 +2,32 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 
+// Não importamos os layouts aqui porque eles são resolvidos pelo App.vue via string
+// import AuthLayout from '../layouts/AuthLayout/index.vue' // <-- Remova esta importação se não for usá-lo diretamente
+// import DefaultLayout from '../layouts/DefaultLayout/index.vue' // <-- Remova esta importação
+
 import AuthView from '../views/AuthView/index.vue'
+import DashboardView from '../views/DashboardView/index.vue' // <-- Exemplo para futura rota
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/auth',
-        component: AuthView,
+        name: 'Auth',
+        component: AuthView, // O componente real da sua view
         meta: {
-            layout: 'AuthLayout',
+            layout: 'AuthLayout', // <-- A string exata que você mapeou em App.vue
+            // requiresAuth: false // Exemplo de meta
         },
     },
-    // Exemplo de uma futura rota de Dashboard dentro de outro layout
-    /*
     {
         path: '/dashboard',
         name: 'Dashboard',
-        component: DashboardView,
+        component: DashboardView, // O componente real da sua view
         meta: {
-            layout: 'DefaultLayout', // Assumindo que você terá um DefaultLayout
-            requiresAuth: true // Exemplo de meta para proteção de rota
+            layout: 'DefaultLayout', // <-- A string exata que você mapeou em App.vue
+            // requiresAuth: true // Exemplo de meta
         },
     },
-    */
 ]
 
 const router = createRouter({
