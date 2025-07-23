@@ -1,10 +1,16 @@
 <template>
     <div>
-        <div class="bg-cineflix-black text-cineflix-white p-4">
-            <img src="../../assets/img/CineFlix.webp" width="200" alt="Logo CineFlix">
-            <h1 class="text-3xl font-bold text-cineflix-red">Bem-vindo a Dashboard CineFlix!</h1>
-            <p class="text-cineflix-dark-gray">Gerencie seus filmes favoritos.</p>
-            <button class="bg-cineflix-red text-cineflix-white p-2 rounded">Entrar</button>
-        </div>
+        <h1 class="text-3xl font-bold text-cineflix-red mb-4">Bem-vindo à Dashboard!</h1>
+        <p>Aqui você poderá gerenciar usuários, clientes, filmes e locações.</p>
+
+        <router-view class="mt-8"></router-view>
     </div>
 </template>
+
+<script setup lang="ts">
+// Nenhuma lógica complexa aqui por enquanto
+</script>
+
+<style scoped>
+/* Estilos específicos */
+</style>

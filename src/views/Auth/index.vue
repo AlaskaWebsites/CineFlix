@@ -33,6 +33,12 @@
                     Entrar
                 </button>
             </div>
+
+            <div class="text-center mt-4">
+                <router-link to="/auth/register" class="text-blue-400 hover:text-blue-600 text-sm">
+                    Não é funcionário? Cadastre-se aqui.
+                </router-link>
+            </div>
         </form>
     </div>
 </template>

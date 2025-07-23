@@ -1,0 +1,1 @@
+<template><div>MoviesViews</div></template>
