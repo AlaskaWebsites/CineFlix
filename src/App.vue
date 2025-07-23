@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, markRaw } from 'vue';
-import { useRoute, type RouteMeta } from 'vue-router'; // Importe 'type RouteMeta' para melhor tipagem
+import { useRoute } from 'vue-router'; // Removido 'type RouteMeta' daqui
 
 // Importe TODOS os layouts que você irá utilizar dinamicamente
 import Auth from './layouts/Auth/index.vue';
@@ -21,8 +21,8 @@ const route = useRoute();
 const currentLayout = ref<Component>(markRaw(Auth));
 
 watch(
-  () => route.meta.layout as string | undefined, // <-- Ajuste aqui: forçar a tipagem
-  (newLayoutName) => { // 'newLayoutName' agora será inferido corretamente como string | undefined
+  () => route.meta.layout as string | undefined, // Continua essencial para resolver TS2769
+  (newLayoutName) => {
     const layoutMap: Record<string, Component> = {
       Auth: markRaw(Auth),
       Default: markRaw(Default),
