@@ -1,7 +1,7 @@
 // router/index.ts
 import { createWebHistory, createRouter } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import { useAuthStore } from '../stores/auth'; // Importe sua store de autenticação
+import { useAuthStore } from '../stores/auth.ts';
 
 import Auth from '../views/Auth/index.vue' // Renomeado de 'Auth' para 'Auth' para consistência
 import Dashboard from '../views/Dashboard/index.vue' // Renomeado de 'Dashboard' para 'Dashboard'
@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     // Rota catch-all para redirecionar para o login se não encontrar nada ou for rota protegida
     {
         path: '/:catchAll(.*)', // Captura qualquer caminho não definido
-        redirect: (to) => { // Redirecionamento dinâmico
+        redirect: (_to) => { // Redirecionamento dinâmico
             const authStore = useAuthStore();
             if (authStore.isLoggedIn) {
                 return { name: 'Dashboard' }; // Se logado, vai pro dashboard
@@ -45,7 +45,7 @@ const router = createRouter({
 })
 
 // Navigation Guard (Proteção de Rotas)
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
     const authStore = useAuthStore();
 
     // Cenário 1: Tentando acessar rota protegida sem estar logado
