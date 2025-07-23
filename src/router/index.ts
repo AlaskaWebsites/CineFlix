@@ -3,23 +3,41 @@ import { createWebHistory, createRouter } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useAuthStore } from '../stores/auth.ts';
 
-import Auth from '../views/Auth/index.vue' // Renomeado de 'Auth' para 'Auth' para consistência
-import Dashboard from '../views/Dashboard/index.vue' // Renomeado de 'Dashboard' para 'Dashboard'
+import AuthView from '../views/Auth/index.vue' // Renomeado para 'AuthView' para clareza
+import RegisterView from '../../src/views/Register/index.vue' // <-- NOVA IMPORTAÇÃO
+import DashboardView from '../views/Dashboard/index.vue' // Renomeado para 'DashboardView'
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/auth',
-        name: 'Auth',
-        component: Auth,
-        meta: {
-            layout: 'Auth',
-            requiresAuth: false, // Esta rota NÃO requer autenticação
-        },
+        // O componente principal para '/auth' não é mais o AuthView diretamente,
+        // mas sim um wrapper para agrupar as rotas filhas que usam o AuthLayout
+        // Como o App.vue já lida com o layout, podemos usar um componente vazio ou apenas as children
+        children: [
+            {
+                path: '', // Rota padrão para /auth (ou seja, /auth)
+                name: 'Auth',
+                component: AuthView,
+                meta: {
+                    layout: 'Auth',
+                    requiresAuth: false, // Esta rota NÃO requer autenticação
+                },
+            },
+            {
+                path: 'register', // Rota para /auth/register
+                name: 'Register', // <-- NOVA ROTA: nome para navegação
+                component: RegisterView, // <-- NOVO COMPONENTE: sua view de registro
+                meta: {
+                    layout: 'Auth', // Usa o mesmo AuthLayout
+                    requiresAuth: false, // Esta rota NÃO requer autenticação
+                },
+            },
+        ],
     },
     {
         path: '/dashboard',
         name: 'Dashboard',
-        component: Dashboard,
+        component: DashboardView,
         meta: {
             layout: 'Default',
             requiresAuth: true, // Esta rota REQUER autenticação
@@ -52,8 +70,8 @@ router.beforeEach((to, _from, next) => {
     if (to.meta.requiresAuth && !authStore.isLoggedIn) {
         next({ name: 'Auth' }); // Redireciona para a tela de login
     }
-    // Cenário 2: Tentando acessar a rota de login/autenticação já estando logado
-    else if (to.name === 'Auth' && authStore.isLoggedIn) {
+    // Cenário 2: Tentando acessar a rota de login/autenticação ou registro já estando logado
+    else if ((to.name === 'Auth' || to.name === 'Register') && authStore.isLoggedIn) { // <-- Lógica atualizada para incluir 'Register'
         next({ name: 'Dashboard' }); // Redireciona para o dashboard
     }
     // Cenário 3: Permite a navegação
