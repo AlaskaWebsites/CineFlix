@@ -5,15 +5,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, markRaw } from 'vue';
 import { useRoute } from 'vue-router';
+import AuthLayout from './layouts/AuthLayout/index.vue';
+
+type Component = typeof AuthLayout;
 
 const route = useRoute();
-const currentLayout: any = ref('AuthLayout');
+const currentLayout = ref<Component>(markRaw(AuthLayout));
+
 watch(
   () => route.meta.layout,
-  (newLayout) => {
-    currentLayout.value = newLayout || 'AuthLayout';
+  (newLayout: any) => {
+    const layoutMap: Record<string, Component> = {
+      AuthLayout: markRaw(AuthLayout)
+    };
+    currentLayout.value = layoutMap[newLayout] || markRaw(AuthLayout);
   },
   { immediate: true }
 );
