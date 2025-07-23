@@ -1,16 +1,13 @@
 <template>
     <div>
-        <h1 class="text-3xl font-bold text-cineflix-red mb-4">Bem-vindo à Dashboard!</h1>
-        <p>Aqui você poderá gerenciar usuários, clientes, filmes e locações.</p>
-
-        <router-view class="mt-8"></router-view>
+        <router-view></router-view>
     </div>
 </template>
 
 <script setup lang="ts">
-// Nenhuma lógica complexa aqui por enquanto
+// Sem lógica ou conteúdo aqui
 </script>
 
 <style scoped>
-/* Estilos específicos */
+/* Sem estilos específicos aqui, a menos que sejam para o container router-view */
 </style>

@@ -7,9 +7,8 @@ import { useAuthStore } from '@/stores/auth.ts';
 import AuthView from '@/views/Auth/index.vue'
 import RegisterView from '@/views/Register/index.vue'
 
-// Views da Dashboard (importadas dinamicamente)
-// import DashboardView from '@/views/Dashboard/index.vue' // Não é necessário importar aqui se for lazy-loaded
-// import UsersView from '@/views/Users/index.vue' // Exemplo para clareza, mas serão importadas no componente
+// Importação do novo DashboardHomeView
+import DashboardHomeView from '@/views/DashboardHome/index.vue' // <-- NOVA IMPORTAÇÃO AQUI
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -37,7 +36,8 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/dashboard',
-        component: () => import('@/views/Dashboard/index.vue'), // Importação dinâmica do DashboardView
+        // O DashboardView agora é o componente pai que contém o <router-view> para seus filhos
+        component: () => import('@/views/Dashboard/index.vue'), // Importação dinâmica do DashboardView (o container)
         meta: {
             layout: 'Default',
             requiresAuth: true,
@@ -45,8 +45,8 @@ const routes: Array<RouteRecordRaw> = [
         children: [ // Rotas filhas para os módulos da Dashboard
             {
                 path: '', // Rota padrão da Dashboard (/dashboard)
-                name: 'DashboardHome', // Nome mais específico para evitar conflito com 'Dashboard' pai
-                component: () => import('@/views/Dashboard/index.vue'), // Pode ser um overview, por exemplo
+                name: 'DashboardHome',
+                component: DashboardHomeView, // <-- AGORA APONTA PARA O DashboardHomeView
                 meta: {
                     layout: 'Default',
                     requiresAuth: true,
@@ -55,27 +55,27 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'users', // Rota para gerenciar usuários: /dashboard/users
                 name: 'Users',
-                component: () => import('@/views/Users/index.vue'), // Componente da listagem de usuários
+                component: () => import('@/views/Users/index.vue'),
                 meta: {
                     layout: 'Default',
                     requiresAuth: true,
                 },
             },
-            // Rotas de CRUD para Usuários (Exemplo: Cadastro/Edição)
+            // Rotas de CRUD para Usuários (Cadastro/Edição)
             {
-                path: 'users/new', // Rota para cadastro de novo usuário: /dashboard/users/new
+                path: 'users/new',
                 name: 'UserNew',
-                component: () => import('@/views/UserForm/index.vue'), // Componente de formulário de usuário
+                component: () => import('@/views/UserForm/index.vue'),
                 meta: {
                     layout: 'Default',
                     requiresAuth: true,
                 },
             },
             {
-                path: 'users/:id/edit', // Rota para edição de usuário: /dashboard/users/123/edit
+                path: 'users/:id/edit',
                 name: 'UserEdit',
-                component: () => import('@/views/UserForm/index.vue'), // Reutiliza o formulário de usuário
-                props: true, // Permite passar o ID como prop para o componente
+                component: () => import('@/views/UserForm/index.vue'),
+                props: true,
                 meta: {
                     layout: 'Default',
                     requiresAuth: true,
@@ -84,15 +84,15 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'clients', // Rota para gerenciar clientes: /dashboard/clients
                 name: 'Clients',
-                component: () => import('@/views/Clients/index.vue'), // Componente da listagem de clientes
+                component: () => import('@/views/Clients/index.vue'),
                 meta: {
                     layout: 'Default',
                     requiresAuth: true,
                 },
             },
-            // Rotas de CRUD para Clientes (Exemplo: Cadastro/Edição)
+            // Rotas de CRUD para Clientes (Cadastro/Edição)
             {
-                path: 'clients/new', // Rota para cadastro de novo cliente: /dashboard/clients/new
+                path: 'clients/new',
                 name: 'ClientNew',
                 component: () => import('@/views/ClientForm/index.vue'),
                 meta: {
@@ -101,7 +101,7 @@ const routes: Array<RouteRecordRaw> = [
                 },
             },
             {
-                path: 'clients/:id/edit', // Rota para edição de cliente: /dashboard/clients/123/edit
+                path: 'clients/:id/edit',
                 name: 'ClientEdit',
                 component: () => import('@/views/ClientForm/index.vue'),
                 props: true,
@@ -113,7 +113,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'movies', // Rota para gerenciar filmes: /dashboard/movies
                 name: 'Movies',
-                component: () => import('@/views/Movies/index.vue'), // Componente da listagem de filmes
+                component: () => import('@/views/Movies/index.vue'),
                 meta: {
                     layout: 'Default',
                     requiresAuth: true,
@@ -122,15 +122,15 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'rentals', // Rota para gerenciar locações: /dashboard/rentals
                 name: 'Rentals',
-                component: () => import('@/views/Rentals/index.vue'), // Componente da listagem de locações
+                component: () => import('@/views/Rentals/index.vue'),
                 meta: {
                     layout: 'Default',
                     requiresAuth: true,
                 },
             },
-            // Rotas de CRUD para Locações (Exemplo: Nova Locação)
+            // Rotas de CRUD para Locações (Nova Locação)
             {
-                path: 'rentals/new', // Rota para nova locação: /dashboard/rentals/new
+                path: 'rentals/new',
                 name: 'RentalNew',
                 component: () => import('@/views/RentalForm/index.vue'),
                 meta: {
@@ -139,7 +139,7 @@ const routes: Array<RouteRecordRaw> = [
                 },
             },
             {
-                path: 'rentals/:id/edit', // Opcional: Edição de Locação
+                path: 'rentals/:id/edit',
                 name: 'RentalEdit',
                 component: () => import('@/views/RentalForm/index.vue'),
                 props: true,
@@ -155,7 +155,7 @@ const routes: Array<RouteRecordRaw> = [
         redirect: (_to) => {
             const authStore = useAuthStore();
             if (authStore.isLoggedIn) {
-                return { name: 'DashboardHome' }; // Redireciona para a home da Dashboard
+                return { name: 'DashboardHome' };
             }
             return { name: 'Auth' };
         },
@@ -175,7 +175,7 @@ router.beforeEach((to, _from, next) => {
         next({ name: 'Auth' });
     }
     else if ((to.name === 'Auth' || to.name === 'Register') && authStore.isLoggedIn) {
-        next({ name: 'DashboardHome' }); // Redireciona para a home da Dashboard
+        next({ name: 'DashboardHome' });
     }
     else {
         next();
