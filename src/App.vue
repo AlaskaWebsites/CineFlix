@@ -4,15 +4,12 @@
   </component>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import AuthLayout from './layouts/AuthLayout/index.vue';
 
 const route = useRoute();
-const currentLayout = ref('AuthLayout');
-
-// Watch route changes to update layout
+const currentLayout: any = ref('AuthLayout');
 watch(
   () => route.meta.layout,
   (newLayout) => {
