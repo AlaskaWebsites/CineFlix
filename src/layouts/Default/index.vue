@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Auth Layout</h2>
+        <h2>Dashboard Layout</h2>
         <slot></slot>
     </div>
 </template>
