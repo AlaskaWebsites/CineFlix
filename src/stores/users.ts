@@ -1,8 +1,8 @@
 // src/stores/users.ts
 import { defineStore } from 'pinia';
-import type { User } from '../types/User';
-import { getFromLocalStorage, saveToLocalStorage } from '../services/localStorageService';
-import { generateUniqueId } from '../utils/idGenerator';
+import type { User } from '@/types/User';
+import { getFromLocalStorage, saveToLocalStorage } from '@/services/localStorageService';
+import { generateUniqueId } from '@/utils/idGenerator';
 
 const USERS_STORAGE_KEY = 'cineflix_users';
 

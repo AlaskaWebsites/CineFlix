@@ -1,7 +1,7 @@
 // src/stores/auth.ts
 import { defineStore } from 'pinia';
-import type { User } from '../types/User';
-import { getFromLocalStorage, saveToLocalStorage, removeFromLocalStorage } from '../services/localStorageService';
+import type { User } from '@/types/User';
+import { getFromLocalStorage, saveToLocalStorage, removeFromLocalStorage } from '@/services/localStorageService';
 
 const AUTH_STORAGE_KEY = 'cineflix_auth_user';
 

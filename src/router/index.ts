@@ -1,11 +1,11 @@
 // router/index.ts
 import { createWebHistory, createRouter } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import { useAuthStore } from '../stores/auth.ts';
+import { useAuthStore } from '@/stores/auth.ts';
 
-import AuthView from '../views/Auth/index.vue' // Renomeado para 'AuthView' para clareza
+import AuthView from '@/views/Auth/index.vue' // Renomeado para 'AuthView' para clareza
 import RegisterView from '@/views/Register/index.vue' // <-- NOVA IMPORTAÇÃO
-import DashboardView from '../views/Dashboard/index.vue' // Renomeado para 'DashboardView'
+import DashboardView from '@/views/Dashboard/index.vue' // Renomeado para 'DashboardView'
 
 const routes: Array<RouteRecordRaw> = [
     {

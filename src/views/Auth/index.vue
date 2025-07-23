@@ -40,8 +40,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '../../stores/users';
-import { useAuthStore } from '../../stores/auth';
+import { useUserStore } from '@/stores/users';
+import { useAuthStore } from '@/stores/auth';
 
 const document = ref('');
 const password = ref('');
