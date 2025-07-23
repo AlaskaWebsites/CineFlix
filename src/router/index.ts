@@ -1,11 +1,14 @@
+// router/index.ts
 import { createWebHistory, createRouter } from 'vue-router'
-
-import AuthView from '../pages/AuthView/Auth.vue'
-import Dashboard from '../pages/DashboardView/Dashboard.vue'
+import AuthLayout from '../layouts/AuthLayout/index.vue'
+import AuthView from '../views/AuthView/index.vue'
 
 const routes = [
-    { path: '/', component: AuthView },
-    { path: '/dashboard', component: Dashboard },
+    {
+        path: '/auth',
+        component: AuthView,
+        meta: { layout: AuthLayout },
+    },
 ]
 
 const router = createRouter({
