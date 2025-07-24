@@ -133,7 +133,7 @@ Siga os passos abaixo para configurar e rodar o projeto em sua máquina local:
 
 ### Pré-requisitos
 
-Certifique-se de ter o [Node.js](https://nodejs.org/en/) (versão LTS recomendada) e o [npm](https://www.npmjs.com/) (gerenciador de pacotes do Node.js) instalados.
+Certifique-se de ter o [Node.js](https://nodejs.org/en/) (versão LTS recomendada, **testado com v22.16.0**) e o [npm](https://www.npmjs.com/) (gerenciador de pacotes do Node.js) instalados.
 
 ### Instalação
 
