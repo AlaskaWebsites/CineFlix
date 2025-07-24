@@ -23,4 +23,5 @@ export interface Client {
         // estadoViaCep?: string; // Para evitar conflito com 'state' (UF)
         // regiao?: string;
     };
+    status: 'active' | 'inactive'; // <-- Adicione esta linha
 }
