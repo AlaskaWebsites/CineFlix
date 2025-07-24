@@ -71,6 +71,8 @@ A aplicação cobre as seguintes funcionalidades essenciais:
 
 ## Estrutura do Projeto
 
+```text
+.
 ├── public/                 # Arquivos estáticos (ex: logo)
 ├── src/
 │   ├── assets/
