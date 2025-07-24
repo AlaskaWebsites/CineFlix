@@ -1,7 +1,9 @@
 <template>
     <div class="bg-cineflix-dark-gray p-8 rounded-lg shadow-lg max-w-2xl w-full mx-auto">
         <div class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-cineflix-red">Registrar Nova Locação</h1>
+            <h1 class="text-3xl font-bold text-cineflix-red">
+                {{ isEditMode ? 'Editar Locação' : 'Registrar Nova Locação' }}
+            </h1>
         </div>
 
         <form @submit.prevent="handleSubmit">
@@ -133,9 +135,13 @@ import { useClientStore } from '@/stores/clients';
 import { useMovieStore } from '@/stores/movies';
 import { useAuthStore } from '@/stores/auth';
 
-import type { Rental } from '@/types/Rental';
-import type { Client } from '@/types/Client';
-import type { MovieSearchResult, MovieDetails } from '@/types/Movie';
+// Removido imports não utilizados para silenciar avisos do linter
+// import type { Client } from '@/types/Client'; // Este tipo não é necessário aqui
+// import type { MovieDetails } from '@/types/Movie'; // MovieDetails não é usado diretamente
+
+// Removido imports não utilizados para silenciar avisos do linter, re-adicionando os necessários
+import type { Rental } from '@/types/Rental'; // <-- AGORA É NECESSÁRIO!
+import type { MovieSearchResult } from '@/types/Movie';
 
 // Props para o modo de edição (se for implementado)
 const props = defineProps<{
@@ -143,18 +149,26 @@ const props = defineProps<{
 }>();
 
 const router = useRouter();
-const route = useRoute();
+const route = useRoute(); // Manter se precisar de route.fullPath no watcher
 const rentalStore = useRentalStore();
 const clientStore = useClientStore();
 const movieStore = useMovieStore();
 const authStore = useAuthStore();
 
+// Define o tipo para os dados do formulário, garantindo todas as propriedades necessárias de Rental
+interface RentalFormInputs extends Omit<Rental, 'id' | 'userId' | 'status'> {
+    clientId: string;
+    movieIds: string[];
+    rentalDate: string;
+    deliveryDate: string;
+}
+
 // Estado do formulário
-const formData = ref<Partial<Rental>>({
+const formData = ref<RentalFormInputs>({
     clientId: '',
     movieIds: [],
-    rentalDate: new Date().toISOString().slice(0, 10), // Data atual no formato YYYY-MM-DD
-    deliveryDate: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10), // 7 dias à frente
+    rentalDate: new Date().toISOString().slice(0, 10),
+    deliveryDate: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10),
 });
 
 // Mensagens de erro por campo
@@ -173,7 +187,7 @@ const availableClients = computed(() => clientStore.allClients.filter(c => c.sta
 // Dados para seleção de filme
 const searchMovieTitle = ref('');
 const searchMovieYear = ref('');
-const selectedMovies = ref<MovieSearchResult[]>([]); // Para filmes já adicionados à locação
+const selectedMovies = ref<MovieSearchResult[]>([]);
 
 // Verifica se um filme já está selecionado na lista
 const isMovieSelected = (imdbID: string) => {
@@ -189,7 +203,7 @@ const handleMovieSearch = () => {
 const addMovieToRental = (movie: MovieSearchResult) => {
     if (!isMovieSelected(movie.imdbID)) {
         selectedMovies.value.push(movie);
-        formData.value.movieIds!.push(movie.imdbID);
+        formData.value.movieIds.push(movie.imdbID);
         movieIdsError.value = null;
     }
 };
@@ -197,22 +211,30 @@ const addMovieToRental = (movie: MovieSearchResult) => {
 // Remove um filme da locação
 const removeMovieFromRental = (imdbID: string) => {
     selectedMovies.value = selectedMovies.value.filter(movie => movie.imdbID !== imdbID);
-    formData.value.movieIds = formData.value.movieIds!.filter(id => id !== imdbID);
+    formData.value.movieIds = formData.value.movieIds.filter(id => id !== imdbID);
 };
 
 // Lógica de pré-preenchimento para edição (se for implementada)
-// MOVIDO PARA ONMOUNTED PARA EVITAR ERRO DE REFERÊNCIA
 onMounted(() => {
     // Para edição: carregar dados da locação
     if (props.id) { // Se um ID for passado como prop, estamos em modo de edição
         const rentalToEdit = rentalStore.getRentalById(props.id);
         if (rentalToEdit) {
-            formData.value = { ...rentalToEdit };
-            // Para popular selectedMovies, precisaríamos buscar os detalhes de cada movie.imdbID.
+            // Se for modo de edição, preenche formData.
+            // Para movieIds, precisamos popular selectedMovies com os MovieSearchResult correspondentes.
             // Para o desafio, vamos assumir que apenas a listagem/criação é essencial,
             // ou simplificar a exibição dos filmes selecionados.
             // Aqui, apenas carregamos os IDs.
             // Se precisar exibir os detalhes dos filmes na edição, terá que fazer uma busca para cada imdbID.
+            formData.value = {
+                clientId: rentalToEdit.clientId,
+                movieIds: rentalToEdit.movieIds,
+                rentalDate: rentalToEdit.rentalDate,
+                deliveryDate: rentalToEdit.deliveryDate,
+            };
+        } else {
+            formError.value = 'Locação não encontrada para edição.';
+            setTimeout(() => router.push({ name: 'Rentals' }), 2000);
         }
     }
 });
@@ -242,10 +264,10 @@ const handleSubmit = async () => {
 
     try {
         await rentalStore.addRental({
-            clientId: formData.value.clientId as string,
-            movieIds: formData.value.movieIds as string[],
-            rentalDate: formData.value.rentalDate as string,
-            deliveryDate: formData.value.deliveryDate as string,
+            clientId: formData.value.clientId,
+            movieIds: formData.value.movieIds,
+            rentalDate: formData.value.rentalDate,
+            deliveryDate: formData.value.deliveryDate,
         });
 
         formSuccess.value = 'Locação registrada com sucesso!';

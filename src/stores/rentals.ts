@@ -49,7 +49,7 @@ export const useRentalStore = defineStore('rental', {
             this.error = null;
 
             const authStore = useAuthStore();
-            const clientStore = useClientStore(); // Também instanciado aqui, dentro da action
+            // const clientStore = useClientStore();
 
             try {
                 // Validação: Usuário logado é obrigatório para registrar locação
