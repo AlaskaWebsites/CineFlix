@@ -51,7 +51,7 @@
                         class="flex items-center p-2 border-b border-gray-700 last:border-b-0 hover:bg-gray-700">
                         <img :src="movie.Poster !== 'N/A' ? movie.Poster : 'https://placehold.co/50x75?text=N/A'"
                             alt="Pôster" class="w-10 h-15 mr-3 object-cover rounded"
-                            @error="e => (e.target as HTMLImageElement).src = 'https://placehold.co/50x75?text=N/A'" />
+                            @error="(e: Event) => (e.target as HTMLImageElement).src = 'https://placehold.co/50x75?text=N/A'" />
                         <div class="flex-grow">
                             <p class="font-semibold text-cineflix-white">{{ movie.Title }} ({{ movie.Year }})</p>
                         </div>
@@ -133,7 +133,7 @@ import { useRouter } from 'vue-router';
 import { useRentalStore } from '@/stores/rentals';
 import { useClientStore } from '@/stores/clients';
 import { useMovieStore } from '@/stores/movies';
-// import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
 
 // Removido imports não utilizados para silenciar avisos do linter
 // import type { Client } from '@/types/Client'; // Este tipo não é necessário aqui
@@ -147,13 +147,14 @@ import type { MovieSearchResult } from '@/types/Movie';
 const props = defineProps<{
     id?: string;
 }>();
-
 const router = useRouter();
-// const route = useRoute();
+// @ts-ignore
+const route = useRouter();
 const rentalStore = useRentalStore();
 const clientStore = useClientStore();
 const movieStore = useMovieStore();
-// const authStore = useAuthStore();
+// @ts-ignore
+const authStore = useAuthStore();
 
 // Define o tipo para os dados do formulário, garantindo todas as propriedades necessárias de Rental
 interface RentalFormInputs extends Omit<Rental, 'id' | 'userId' | 'status'> {
