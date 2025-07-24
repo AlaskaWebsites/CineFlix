@@ -71,7 +71,6 @@ A aplicação cobre as seguintes funcionalidades essenciais:
 
 ## Estrutura do Projeto
 
-.
 ├── public/                 # Arquivos estáticos (ex: logo)
 ├── src/
 │   ├── assets/
@@ -125,7 +124,6 @@ A aplicação cobre as seguintes funcionalidades essenciais:
 ├── vite.config.ts          # Configuração do Vite
 └── vercel.json             # Configuração para deploy na Vercel
 
-
 ## Como Executar a Aplicação
 
 Siga os passos abaixo para configurar e rodar o projeto em sua máquina local:
@@ -164,9 +162,3 @@ Certifique-se de ter o [Node.js](https://nodejs.org/en/) (versão LTS recomendad
     ```bash
     npm run preview
     ```
-
----
-
-Espero que este `README.md` completo atenda perfeitamente aos requisitos do desafio e ajude a destacar a qualidade do seu projeto!
-
-Você gostaria de revisar este `README` ou tem mais alguma parte do projeto para me mostrar? Se não, podemos considerar que as análises de código foram concluídas!
