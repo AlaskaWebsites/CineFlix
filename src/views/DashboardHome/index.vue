@@ -4,11 +4,3 @@
         <p>Aqui você poderá gerenciar usuários, clientes, filmes e locações.</p>
     </div>
 </template>
-
-<script setup lang="ts">
-// Nenhuma lógica complexa aqui
-</script>
-
-<style scoped>
-/* Estilos específicos */
-</style>

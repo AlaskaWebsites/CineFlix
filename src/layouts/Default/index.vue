@@ -65,8 +65,10 @@
                 </nav>
             </aside>
 
-            <main class="flex-grow p-6 w-full px-2 sm:px-4 md:px-2 lg:px-6">
-                <slot></slot>
+            <main class="flex-grow flex justify-center w-full">
+                <div class="w-full max-w-6xl p-2 sm:p-4 flex flex-col min-w-0">
+                    <slot></slot>
+                </div>
             </main>
         </div>
 
