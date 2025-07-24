@@ -1,16 +1,16 @@
-// src/stores/movies.ts
+// src/stores/movies.ts (confirme que este código está no seu arquivo)
 import { defineStore } from 'pinia';
-import { searchMovies } from '@/services/omdbService'; // Importe o serviço OMDb
-import type { MovieSearchResult, OMDbSearchResponse } from '@/types/Movie'; // Importe os tipos necessários
+import { searchMovies } from '@/services/omdbService';
+import type { MovieSearchResult, OMDbSearchResponse } from '@/types/Movie';
 
 interface MoviesState {
-    movies: MovieSearchResult[]; // Array para armazenar os resultados da busca
-    loading: boolean;          // Estado de carregamento da busca
-    error: string | null;      // Mensagem de erro, se houver
-    lastSearchTitle: string;   // Último título buscado (para persistir a busca)
-    lastSearchYear: string;    // Último ano buscado
-    currentPage: number;       // Página atual dos resultados
-    totalResults: number;      // Total de resultados retornados pela OMDb
+    movies: MovieSearchResult[];
+    loading: boolean;
+    error: string | null;
+    lastSearchTitle: string;
+    lastSearchYear: string;
+    currentPage: number;
+    totalResults: number;
 }
 
 export const useMovieStore = defineStore('movie', {
@@ -27,19 +27,12 @@ export const useMovieStore = defineStore('movie', {
         getMovies: (state) => state.movies,
         isLoading: (state) => state.loading,
         getErrorMessage: (state) => state.error,
-        // Verifica se há mais páginas para carregar (baseado no total de resultados da API)
         hasMorePages: (state) => {
-            const itemsPerPage = 10; // A OMDb API retorna 10 itens por página por padrão
+            const itemsPerPage = 10;
             return state.currentPage * itemsPerPage < state.totalResults;
         },
     },
     actions: {
-        /**
-         * Busca filmes na OMDb API.
-         * @param title Título do filme a buscar.
-         * @param year Ano de lançamento (opcional).
-         * @param page Número da página para buscar (padrão 1).
-         */
         async fetchMovies(title: string, year?: string, page: number = 1) {
             this.loading = true;
             this.error = null;
@@ -48,13 +41,18 @@ export const useMovieStore = defineStore('movie', {
                 const response: OMDbSearchResponse | null = await searchMovies(title, year, page);
 
                 if (response && response.Response === 'True' && response.Search) {
-                    this.movies = response.Search; // Atualiza a lista de filmes
-                    this.totalResults = parseInt(response.totalResults || '0'); // Converte para número
+                    // FILTRAGEM PARA GARANTIR DADOS VÁLIDOS E EVITAR ERROS NO CONSOLE
+                    this.movies = response.Search.filter(movie =>
+                        movie.imdbID &&
+                        movie.Poster && movie.Poster !== 'N/A' &&
+                        movie.Type === 'movie'
+                    );
+                    this.totalResults = parseInt(response.totalResults || '0');
                     this.currentPage = page;
                     this.lastSearchTitle = title;
-                    this.lastSearchYear = year || ''; // Armazena o último ano buscado
+                    this.lastSearchYear = year || '';
                 } else if (response && response.Response === 'False') {
-                    this.movies = []; // Limpa filmes se a busca falhou
+                    this.movies = [];
                     this.totalResults = 0;
                     this.error = response.Error || 'Nenhum filme encontrado para a sua busca.';
                 } else {
@@ -72,7 +70,6 @@ export const useMovieStore = defineStore('movie', {
             }
         },
 
-        // Ação para carregar mais filmes (usada para paginação infinita ou botão "Carregar Mais")
         async loadMoreMovies() {
             if (!this.loading && this.hasMorePages && this.lastSearchTitle) {
                 const nextPage = this.currentPage + 1;
@@ -81,7 +78,13 @@ export const useMovieStore = defineStore('movie', {
                 try {
                     const response = await searchMovies(this.lastSearchTitle, this.lastSearchYear, nextPage);
                     if (response && response.Response === 'True' && response.Search) {
-                        this.movies = [...this.movies, ...response.Search]; // Adiciona ao invés de substituir
+                        // FILTRAGEM PARA GARREGAR MAIS FILMES VÁLIDOS
+                        const newMovies = response.Search.filter(movie =>
+                            movie.imdbID &&
+                            movie.Poster && movie.Poster !== 'N/A' &&
+                            movie.Type === 'movie'
+                        );
+                        this.movies = [...this.movies, ...newMovies];
                         this.currentPage = nextPage;
                     } else if (response && response.Response === 'False') {
                         this.error = response.Error || 'Não foi possível carregar mais filmes.';

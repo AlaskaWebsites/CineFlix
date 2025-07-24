@@ -1,4 +1,4 @@
-/* src/assets/css/main.css */
+/* src/assets/styles/main.css */
 @import "tailwindcss";
 
 @tailwind base;
@@ -6,12 +6,43 @@
 @tailwind utilities;
 
 @theme {
+    /* Fontes (se usar fontes customizadas depois) */
     --font-times-new-roman: 'Times New Roman', serif;
-    --teste-color: red; /* Você pode remover essa linha se não for usar 'red' específico */
+    /* --teste-color: red; <-- REMOVIDO: Era temporário e não usado */
 
-    /* Cores CineFlix */
+    /* Cores CineFlix Principais (Baseadas na Logo) */
     --color-cineflix-black: #000000;
     --color-cineflix-red: #E60000;
-    --color-cineflix-dark-gray: #333333; /* Ou #666666 se preferir um cinza um pouco mais claro */
+    /* Vermelho principal para botões primários */
+    --color-cineflix-dark-gray: #333333;
+    /* Cinza escuro para fundos de cards/formulários */
     --color-cineflix-white: #FFFFFF;
+
+    /* Cores CineFlix para Feedback e Ações Específicas (Para consistência visual) */
+
+    /* Azul para botões de "Editar" (baseado nos tons padrão do Tailwind que você usava) */
+    --color-cineflix-blue-600: #2563eb;
+    /* Similar ao blue-600 padrão */
+    --color-cineflix-blue-700: #1d4ed8;
+    /* Similar ao hover:blue-700 padrão */
+
+    /* Verde para status "Ativo" e botão "Ativar" */
+    --color-cineflix-green-400: #4ade80;
+    /* Similar ao text-green-400 padrão */
+    --color-cineflix-green-600: #16a34a;
+    /* Similar ao bg-green-600 padrão */
+    --color-cineflix-green-700: #15803d;
+    /* Similar ao hover:bg-green-700 padrão */
+
+    /* Vermelho para botão de "Desativar" (se for um tom diferente do cineflix-red principal) */
+    --color-cineflix-danger-600: #dc2626;
+    /* Similar ao red-600 padrão */
+    --color-cineflix-danger-700: #b91c1c;
+    /* Similar ao hover:red-700 padrão */
+
+    /* Tons de cinza mais claros para texto secundário ou placeholders */
+    --color-cineflix-gray-400: #9ca3af;
+    /* Similar ao gray-400 padrão */
+    --color-cineflix-gray-500: #6b7280;
+    /* Similar ao gray-500 padrão */
 }
