@@ -125,6 +125,7 @@ A aplicação cobre as seguintes funcionalidades essenciais:
 ├── tsconfig.node.json      # Configuração TypeScript para ambiente Node.js (Vite)
 ├── vite.config.ts          # Configuração do Vite
 └── vercel.json             # Configuração para deploy na Vercel
+```
 
 ## Como Executar a Aplicação
 
