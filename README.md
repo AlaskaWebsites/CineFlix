@@ -4,6 +4,10 @@
 
 Este projeto consiste no desenvolvimento de uma interface web para o gerenciamento completo de uma locadora de filmes, com foco em Usuários (Funcionários), Clientes, Filmes (consumindo uma API externa) e Locações. O objetivo é fornecer uma ferramenta intuitiva para o controle das operações diárias da locadora, desde o cadastro de informações até o registro e acompanhamento das locações.
 
+## Visualizar Aplicação Online
+
+[cite_start]A aplicação CineFlix está hospedada e disponível para visualização e teste no seguinte link: [https://cine-flix-khaki.vercel.app/](https://cine-flix-khaki.vercel.app/) 
+
 ## Tecnologias Utilizadas
 
 O projeto foi desenvolvido utilizando as seguintes tecnologias e frameworks, conforme os requisitos do desafio:
