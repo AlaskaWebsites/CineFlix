@@ -6,7 +6,7 @@ Este projeto consiste no desenvolvimento de uma interface web para o gerenciamen
 
 ## Visualizar Aplicação Online
 
-[cite_start]A aplicação CineFlix está hospedada e disponível para visualização e teste no seguinte link: [https://cine-flix-khaki.vercel.app/](https://cine-flix-khaki.vercel.app/) 
+[site_start]A aplicação CineFlix está hospedada e disponível para visualização e teste no seguinte link: [https://cine-flix-khaki.vercel.app/](https://cine-flix-khaki.vercel.app/) 
 
 ## Tecnologias Utilizadas
 
