@@ -139,7 +139,7 @@ Certifique-se de ter o [Node.js](https://nodejs.org/en/) (versão LTS recomendad
 
 1.  **Clone o repositório** (se ainda não o fez):
     ```bash
-    git clone <https://github.com/AlaskaWebsites/CineFlix.git>
+    git clone https://github.com/AlaskaWebsites/CineFlix.git
     cd cineflix
     ```
 2.  **Instale as dependências** do projeto:
