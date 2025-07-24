@@ -1,9 +1,10 @@
 // src/services/omdbService.ts
-import api from '@/services/api'; // <-- Importe a instância do Axios
+import api from '@/services/api';
 import type { OMDbSearchResponse, MovieDetails } from '@/types/Movie';
 
-const OMDB_API_KEY = 'bc982e18';
-const OMDB_BASE_URL = 'http://www.omdbapi.com/';
+const OMDB_API_KEY = 'bc982e18'; // Sua chave
+// MUDE ESTA LINHA PARA HTTPS:
+const OMDB_BASE_URL = 'https://www.omdbapi.com/';
 
 interface SearchMovieParams {
     s: string;
@@ -41,7 +42,7 @@ export async function searchMovies(
             params.y = year;
         }
 
-        const response = await api.get<OMDbSearchResponse>(OMDB_BASE_URL, { params }); // <-- Use 'api.get'
+        const response = await api.get<OMDbSearchResponse>(OMDB_BASE_URL, { params });
 
         if (response.data.Response === 'False') {
             console.warn(`OMDb API - Erro na busca por filmes: ${response.data.Error}`);
@@ -68,7 +69,7 @@ export async function getMovieDetails(imdbID: string): Promise<MovieDetails | nu
             plot: 'full',
         };
 
-        const response = await api.get<MovieDetails>(OMDB_BASE_URL, { params }); // <-- Use 'api.get'
+        const response = await api.get<MovieDetails>(OMDB_BASE_URL, { params });
 
         if (response.data.Response === 'False') {
             console.warn(`OMDb API - Erro ao obter detalhes do filme: ${response.data.Error}`);
