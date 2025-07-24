@@ -128,12 +128,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useRentalStore } from '@/stores/rentals';
 import { useClientStore } from '@/stores/clients';
 import { useMovieStore } from '@/stores/movies';
-import { useAuthStore } from '@/stores/auth';
+// import { useAuthStore } from '@/stores/auth';
 
 // Removido imports não utilizados para silenciar avisos do linter
 // import type { Client } from '@/types/Client'; // Este tipo não é necessário aqui
@@ -149,11 +149,11 @@ const props = defineProps<{
 }>();
 
 const router = useRouter();
-const route = useRoute(); // Manter se precisar de route.fullPath no watcher
+// const route = useRoute();
 const rentalStore = useRentalStore();
 const clientStore = useClientStore();
 const movieStore = useMovieStore();
-const authStore = useAuthStore();
+// const authStore = useAuthStore();
 
 // Define o tipo para os dados do formulário, garantindo todas as propriedades necessárias de Rental
 interface RentalFormInputs extends Omit<Rental, 'id' | 'userId' | 'status'> {
